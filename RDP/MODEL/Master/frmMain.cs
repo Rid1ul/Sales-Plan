@@ -54,7 +54,7 @@ namespace RDP
 
             lblUser.Text = txtMainUserName.ToUpper();
 
-            String sql = "SELECT distinct *  FROM [UAUTH2] where type='Parent Account' AND [UID]='" + txtMainUserName + "'";  // UAUTH is a view
+            String sql = "SELECT distinct *  FROM [UAUTH] where type='Parent Account' AND [UID]='" + txtMainUserName + "'";  // UAUTH is a view
             try
             {
                 _connection.Open();
@@ -116,8 +116,8 @@ namespace RDP
             string id = r["code"].ToString();
             string name = r["ac_name"].ToString();
 
-            sql = "select * from [UAUTH2] where [UID]='" + txtMainUserName + "' and parent='" + id + "'";
-            dataLoadList(sql, "UAUTH2");
+            sql = "select * from [UAUTH] where [UID]='" + txtMainUserName + "' and parent='" + id + "'";
+            dataLoadList(sql, "UAUTH");
 
             autoResizeColumns(listView1);
             //listView1.Items.Add("User", 0);

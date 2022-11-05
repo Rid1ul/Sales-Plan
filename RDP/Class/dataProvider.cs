@@ -139,6 +139,7 @@ namespace RDP
             dt = DBexe.getDataTable(strSQL, "ITEM_Production_Header");
 
 
+
             //dt2 = DBexe.getDataTable("select * from item_production_planning where TransNo = '" + transno + "' and version = '" + version + "'", "item_production_planning");
 
             strSQL = "select batchno, TransNo,Executive,production,avgSalesPeriodFrom, avgSalesPeriodTo, RDPDate, ItemID, ItemName,sector, plant, productType,uom, tp, TongiStock, RupgonjStock, TotalFGStock,tdclstock, jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, AvgSales, prevQty, SystemQty, ActualQty, RDPMonth2, RDPMonth3, RSPMonth1, RSPMonth2, RSPMonth3, ExpDeliveryDate, Remark, Status, CreatedDate,CreatedBy, stock, Version, Trend from ITEM_Production_Planning where TransNo = '"+transno+"' and version = '"+version+"'";
@@ -186,6 +187,8 @@ namespace RDP
                         //{
 
                         //worksheet2.Cells["F:H"].Style.Numberformat.Format = "yyyy-MM-dd";
+
+                        worksheet2.Cells["H:H"].Style.Numberformat.Format ="0";
 
                         worksheet2.Cells["AH:AH"].Style.Border.Top.Style = ExcelBorderStyle.Thin;
                         worksheet2.Cells["AH:AH"].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;

@@ -108,7 +108,7 @@ namespace RDP.UI.Target_Management
                 DataTable dates = new DataTable();
                 dates = provider.getDataTable(strSQL, "ITEM_Production_Planning");
 
-                dtpAvgSales.Value = Convert.ToDateTime(dates.Rows[0][2].ToString());
+                dtpRDPPeriod.Value = Convert.ToDateTime(dates.Rows[0][2].ToString());
                 dtpAvgSales.Value = Convert.ToDateTime(dates.Rows[0][0].ToString());
                 dtpTo.Value = Convert.ToDateTime(dates.Rows[0][1].ToString());
             }            
@@ -344,6 +344,7 @@ namespace RDP.UI.Target_Management
 
         private void LoadGPMItemInfo()
         {
+
             DataTable dtable = new DataTable();
             strSQL = "Select tblItem.*,isnull(tblTrans.CompletedItem, 0) as CompletedItem from (select GPMID, GPMNAME, COUNT(ITEMNO) AS TotalItem " +
                 "from PRINFOSKF   WHERE STATUS = 1 AND GPMID IS NOT NULL AND GPMID <> 1 GROUP BY GPMID, GPMNAME) AS tblItem left join " +
@@ -1386,6 +1387,17 @@ namespace RDP.UI.Target_Management
                     AddComma(22);
                 }
 
+
+                strSQL = "select top 1 avgSalesPeriodFrom, avgSalesPeriodTo,RDPDate from ITEM_Production_Planning"; // where TransNo = '" + txtTransNo.Text + "' ";
+                DataTable dates = new DataTable();
+                dates = provider.getDataTable(strSQL, "ITEM_Production_Planning");
+
+                dtpRDPPeriod.Value = Convert.ToDateTime(dates.Rows[0][2].ToString());
+                dtpAvgSales.Value = Convert.ToDateTime(dates.Rows[0][0].ToString());
+                dtpTo.Value = Convert.ToDateTime(dates.Rows[0][1].ToString());
+
+
+
                 DateTime datetimeCurrent = dtpRDPPeriod.Value;
 
                 dgvRandom.Columns[23].HeaderText = datetimeCurrent.ToString("MMM yyyy")+" CM";
@@ -1461,6 +1473,8 @@ namespace RDP.UI.Target_Management
 
                 }
 
+
+                
                 DateTime datetime11 = dtpRDPPeriod.Value;
                 for (int i = 0; i < 3; i++)
                 {
@@ -2253,6 +2267,12 @@ namespace RDP.UI.Target_Management
         
         private void exportToolStripMenuItem_Click(object sender, EventArgs e)                // Export
         {
+            if (txtBatchNo.Text == "****NEW****" || txtTransNo.Text == "****NEW****" || cmbVersion.Text == "Select Option")
+            {
+                MessageBox.Show("No entry found! Please add an entry first.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+
             provider.ExportToExcel(txtTransNo.Text, Int32.Parse(cmbVersion.Text), userName,txtBatchNo.Text);
         }
 
